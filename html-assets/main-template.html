@@ -6,7 +6,7 @@
         <title>{{ page_title }}</title>
         <link rel="image_src" href="{{ page_image_src }}" />
         <style>
-            {{ styles }}
+{{ styles }}
         </style>
     </head>
     <body>
@@ -46,6 +46,12 @@
             <div id="rune-bag-container">
                 <svg id="rune-bag"
                     xmlns="http://www.w3.org/2000/svg" height="160" width="100">
+                    {{for rune in runes}}
+                    <path
+                        id="{{ rune['rune_id'] }}"
+                        {{if rune['reversible']}}reversible="reversible"{{endif}}
+                        d="{{ rune['svg_path'] }}" />
+                    {{endfor}}
                 </svg>
             </div>
         </section>
@@ -63,6 +69,10 @@
             </div>
             <div id="source-content">
                 <h3>{{ interpretations_title }}</h3>
+                {{for rune in runes}}
+                <p id="source-{{ rune['rune_id'] }}">{{ rune['standard_text'] }}</p>
+                {{if rune['reversible']}}<p id="source-{{ rune['rune_id'] }}-inverted">{{ rune['inverted_text'] }}</p>{{endif}}
+                {{endfor}}
             </div>
         </section>
         
@@ -75,7 +85,7 @@
         </footer>
         
         <script>
-            {{ script }}
+{{ script }}
         </script>
     </body>
 </html>
