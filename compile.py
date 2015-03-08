@@ -16,7 +16,7 @@ for k, v in strings.items():
     context[k] = v
 
 # Include the script and the styles.
-for x in ["styles.css", "script.js"]:
+for x in ["styles.css", "script.js", "extras.html"]:
     with open(os.path.join("html-assets", x)) as f:
         context[x.split(".")[0]] = f.read().decode("utf-8")
 
