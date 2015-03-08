@@ -1,0 +1,82 @@
+html {
+    background: linear-gradient(to bottom,
+        rgb(20,20,20) 0%,
+        rgb(100,100,100) 100%)
+        fixed;
+    height: 100%;
+    width: 100%;
+}
+body {
+    color: rgb(255,255,255);
+    font-family: sans-serif;
+    font-size: 62.5%;
+    margin: auto;
+    padding: 0px;
+    width: 840px;
+}
+header, footer, h3 { clear: both; text-align: center; }
+header { margin-bottom: 10px; }
+footer { padding: 10px; }
+h1 {
+    font-size: 1.5em;
+    font-weight: normal;
+    margin: 0px;
+    padding-top: 10px;
+}
+h2 { display: none; }
+h3, p { font-size: 1.1em; margin: 0px; padding-bottom: 10px; }
+p { color: rgb(200,200,200); }
+    footer p { font-size: 0.9em; }
+strong { color: rgb(255,255,255); }
+a:link, a:visited { color: rgb(255,255,255); text-decoration: none; }
+a:focus, a:hover { text-decoration: underline; }
+path { fill: rgb(255,255,255); stroke: none; }
+rect { fill: rgb(25,25,25); stroke: rgb(120,120,120); }
+#graphics { float: left; width: 320px; }
+    #rune-bag { display: none; }
+    #rune-field-container {
+        background: rgb(0,0,0);
+        border-radius: 20px;
+        height: 494px;
+        margin: auto;
+        margin-bottom: 10px;
+        padding: 25px;
+        width: 315px;
+    }
+#text-content {
+    background: linear-gradient(to right, rgba(0,0,0,0.75) 0%,
+        rgba(0,0,0,0.0) 90%);
+    border-bottom: 1px rgb(0,0,0) solid;
+    border-top: 1px rgb(0,0,0) solid;
+    float: right;
+    height: 480px;
+    margin-top: 27px;
+    overflow: auto;
+    padding: 0px 20px 10px 20px;
+    width: 440px;
+}
+    #text-content h3 { color: rgb(255,255,255); padding: 20px; }
+    #composed-content { display: none; }
+    #source-content { display: none; }
+#bottom-box {
+    border: 1px rgb(0,0,0) solid;
+    height: 90px;
+    margin: auto;
+    margin-bottom: 10px;
+    width: 728px;
+}
+
+@media print {
+    @page { margin: 2cm 0.5cm; }
+    body { width: 100%; }
+    header { font-size: 1.3em; }
+    #graphics { width: 400px; }
+    #text-content {
+        border: 0px;
+        float: left;
+        height: auto;
+        margin: 0px;
+        width: 300px;
+    }
+    #asker { display: none; }
+}

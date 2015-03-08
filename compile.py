@@ -4,7 +4,7 @@
     definitions, SVG rune drawings, and other stuff contained in the HTML
     assets directory.
 """
-
+import tempita
 
 
 if __name__ == "__main__":
