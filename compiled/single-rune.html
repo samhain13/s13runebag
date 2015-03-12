@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="description" content="Inspired by Facade, Rune Bag is a random rune picker application. This chooses one rune and provides the user some text to reflect on. Rune Bag is a simple, single page application created for entertainment purposes." />
+        <title>Samhain13's RuneBag (Single Draw)</title>
+        <link rel="image_src" href="http://betamini.abcruz.com/rune-bag-img.jpg" />
+        <style>
+html {
+    background: linear-gradient(to bottom,
+        rgb(20,20,20) 0%,
+        rgb(100,100,100) 100%)
+        fixed;
+    height: 100%;
+    width: 100%;
+}
+body {
+    color: rgb(255,255,255);
+    font-family: sans-serif;
+    font-size: 62.5%;
+    margin: auto;
+    padding: 0px;
+    width: 840px;
+}
+header, footer, h3 { clear: both; text-align: center; }
+header { margin-bottom: 10px; }
+footer { padding: 10px; }
+h1 {
+    font-size: 1.5em;
+    font-weight: normal;
+    margin: 0px;
+    padding-top: 10px;
+}
+h2 { display: none; }
+h3, p { font-size: 1.1em; margin: 0px; padding-bottom: 10px; }
+p { color: rgb(200,200,200); }
+    footer p { font-size: 0.9em; }
+strong { color: rgb(255,255,255); }
+a:link, a:visited { color: rgb(255,255,255); text-decoration: none; }
+a:focus, a:hover { text-decoration: underline; }
+path { fill: rgb(255,255,255); stroke: none; }
+rect { fill: rgb(25,25,25); stroke: rgb(120,120,120); }
+#graphics { float: left; width: 320px; }
+    #rune-bag { display: none; }
+    #rune-field-container {
+        background: rgb(0,0,0);
+        border-radius: 20px;
+        height: 494px;
+        margin: auto;
+        margin-bottom: 10px;
+        padding: 25px;
+        width: 315px;
+    }
+#text-content {
+    background: linear-gradient(to right, rgba(0,0,0,0.75) 0%,
+        rgba(0,0,0,0.0) 90%);
+    border-bottom: 1px rgb(0,0,0) solid;
+    border-top: 1px rgb(0,0,0) solid;
+    float: right;
+    height: 480px;
+    margin-top: 27px;
+    overflow: auto;
+    padding: 0px 20px 10px 20px;
+    width: 440px;
+}
+    #text-content h3 { color: rgb(255,255,255); padding: 20px; }
+    #composed-content { display: none; }
+    #source-content { display: none; }
+#bottom-box {
+    border: 1px rgb(0,0,0) solid;
+    height: 90px;
+    margin: auto;
+    margin-bottom: 10px;
+    width: 728px;
+}
+
+@media print {
+    @page { margin: 2cm 0.5cm; }
+    body { width: 100%; }
+    header { font-size: 1.3em; }
+    #graphics { width: 400px; }
+    #text-content {
+        border: 0px;
+        float: left;
+        height: auto;
+        margin: 0px;
+        width: 300px;
+    }
+    #asker { display: none; }
+}
+
+        </style>
+    </head>
+    <body>
+        <header>
+            <h1>Samhain13's RuneBag</h1>
+            <p>
+                A random rune picker.<br />
+                <a id="asker" href="#">[ <strong>Draw Runes</strong> ]</a>
+            </p>
+        </header>
+        
+        
+        <section id="graphics">
+            <h2>Graphics</h2>
+            
+            <div id="rune-field-container">
+                <svg id="rune-field"
+                    xmlns="http://www.w4.org/2000/svg" height="494" width="315">
+                    <g id="rune-1" transform="translate(107,167)">
+                        <rect x="0" y="0" ry="20" height="160" width="100" />
+                    </g>
+                </svg>
+            </div>
+            
+            <div id="rune-bag-container">
+                <svg id="rune-bag"
+                    xmlns="http://www.w3.org/2000/svg" height="160" width="100">
+                    <path
+                        id="mannaz"
+                        reversible="reversible"
+                        d="M 11.53125 20.03125 L 11.53125 29.125 L 5.9375 25.625 L 5.9375 37.5625 L 11.53125 41.0625 L 11.53125 82.125 L 5.9375 85.625 L 5.9375 97.5625 L 11.53125 94.0625 L 11.53125 139.15625 L 23.46875 139.15625 L 23.46875 86.5625 L 50.5 69.5625 L 77.53125 86.5625 L 77.53125 139.15625 L 89.46875 139.15625 L 89.46875 94.0625 L 95.0625 97.5625 L 95.0625 85.625 L 89.46875 82.125 L 89.46875 41.0625 L 95.0625 37.5625 L 95.0625 25.625 L 89.46875 29.125 L 89.46875 20.03125 L 77.53125 20.03125 L 77.53125 36.625 L 50.5 53.625 L 23.46875 36.625 L 23.46875 20.03125 L 11.53125 20.03125 z M 23.46875 48.5625 L 44.1875 61.59375 L 23.46875 74.625 L 23.46875 48.5625 z M 77.53125 48.5625 L 77.53125 74.625 L 56.8125 61.59375 L 77.53125 48.5625 z" />
+                    <path
+                        id="gebo"
+                        d="M 25.6875 25.28125 L 15.34375 31.25 L 43.40625 79.875 L 15.34375 128.46875 L 25.6875 134.4375 L 50.3125 91.8125 L 74.90625 134.4375 L 85.25 128.46875 L 57.1875 79.875 L 85.25 31.25 L 74.90625 25.28125 L 50.3125 67.90625 L 25.6875 25.28125 z" />
+                    <path
+                        id="anzus"
+                        reversible="reversible"
+                        d="M 11.875 20.0625 L 5.03125 29.84375 L 20.03125 40.375 L 20.03125 51.78125 L 11.875 46.0625 L 5.03125 55.84375 L 20.03125 66.375 L 20.03125 139.4375 L 31.96875 139.4375 L 31.96875 74.75 L 94.71875 118.8125 L 94.71875 104.1875 L 31.96875 60.15625 L 31.96875 48.75 L 94.71875 92.8125 L 94.71875 78.1875 L 31.96875 34.15625 L 31.96875 20.3125 L 20.03125 20.3125 L 20.03125 25.78125 L 11.875 20.0625 z" />
+                    <path
+                        id="othala"
+                        reversible="reversible"
+                        d="M 10.065963,60 10.259508,60.21875 10.065963,60.40625 43.079193,99.21875 10.065963,138 17.697162,146.28125 50.40625,107.8125 83.142987,146.28125 90.746537,138 57.733307,99.21875 90.746537,60.40625 90.552992,60.21875 90.746537,60 50.40625,12.59375 z M 50.40625,29.8125 76.285968,60.21875 50.40625,90.59375 24.554181,60.21875 z" />
+                    <path
+                        id="ingwas"
+                        d="M 18.963028,7.0722121 11.686758,14.032122 43.164534,46.775337 11.686758,79.492188 11.871301,79.676731 11.686758,79.834911 43.164534,112.57813 11.686758,145.29498 18.963028,152.28125 50.150808,119.82803 81.364951,152.28125 88.614858,145.29498 57.137081,112.57813 88.614858,79.834911 88.430314,79.676731 88.614858,79.492188 57.137081,46.775337 88.614858,14.032122 81.364951,7.0722121 50.150808,39.499067 18.963028,7.0722121 z M 50.150808,54.025243 74.826853,79.676731 50.150808,105.30186 25.501125,79.676731 50.150808,54.025243 z" />
+                    <path
+                        id="uruz"
+                        reversible="reversible"
+                        d="M 18.963028,7.0722121 11.686758,14.032122 43.164534,46.775337 11.686758,79.492188 11.871301,79.676731 11.686758,79.834911 43.164534,112.57813 11.686758,145.29498 18.963028,152.28125 50.150808,119.82803 81.364951,152.28125 88.614858,145.29498 57.137081,112.57813 88.614858,79.834911 88.430314,79.676731 88.614858,79.492188 57.137081,46.775337 88.614858,14.032122 81.364951,7.0722121 50.150808,39.499067 18.963028,7.0722121 z M 50.150808,54.025243 74.826853,79.676731 50.150808,105.30186 25.501125,79.676731 50.150808,54.025243 z" />
+                    <path
+                        id="perth"
+                        reversible="reversible"
+                        d="M 12.945228,9.8767317 4.7810026,18.040957 12.884752,26.144706 12.884752,133.70081 4.7810026,141.80455 12.945228,149.96878 49.623763,113.29024 86.302299,149.96878 94.466524,141.80455 49.623763,96.961796 24.435618,122.14994 24.435618,37.695572 49.623763,62.883717 94.466524,18.040957 86.302299,9.8767317 49.623763,46.555268 12.945228,9.8767317 z" />
+                    <path
+                        id="isa"
+                        d="M 45.532333,20.02322 57.472631,20.02322 57.472631,139.16086 45.532333,139.16086 z" />
+                    <path
+                        id="nauthir"
+                        reversible="reversible"
+                        d="M 24.875,15.03125 14.5625,21 43.53125,71.15625 43.53125,143.15625 55.46875,143.15625 55.46875,91.84375 74.125,124.15625 84.46875,118.1875 55.46875,68 55.46875,24.03125 43.53125,24.03125 43.53125,47.3125 24.875,15.03125 z" />
+                    <path
+                        id="aiwas"
+                        d="M 70 9.625 L 34.1875 121.65625 L 5.625 75.1875 L 5.625 95.375 L 38.3125 149.75 L 72.125 39.71875 L 95.6875 80.53125 L 95.6875 55.9375 L 70 9.625 z" />
+                    <path
+                        id="algiz"
+                        reversible="reversible"
+                        d="M 44.03026,20.03125 44.03026,65.1875 12.09276,33.25 3.6552605,41.6875 43.56151,79.59375 44.03026,139.15625 55.96776,139.15625 56.43651,79.59375 96.34276,41.6875 87.90526,33.25 55.96776,65.1875 55.96776,20.03125 z" />
+                    <path
+                        id="algiz"
+                        reversible="reversible"
+                        d="M 94.1875 16.90625 L 23.46875 57.75 L 23.46875 20.03125 L 11.53125 20.03125 L 11.53125 64.625 L 3.21875 69.4375 L 9.1875 79.78125 L 11.53125 78.4375 L 11.53125 90.625 L 3.21875 95.4375 L 9.1875 105.78125 L 11.53125 104.4375 L 11.53125 139.15625 L 23.46875 139.15625 L 23.46875 97.53125 L 94.1875 56.6875 L 94.1875 42.90625 L 23.46875 83.75 L 23.46875 71.53125 L 94.1875 30.6875 L 94.1875 16.90625 z" />
+                    <path
+                        id="wunjo"
+                        reversible="reversible"
+                        d="M 23.53125,14.03125 23.53125,151.15625 35.46875,151.15625 35.46875,112.15625 83.8125,61.15625 35.46875,14.03125 z M 35.46875,31.75 66.9375,61.59375 35.46875,94.8125 z" />
+                    <path
+                        id="raido"
+                        reversible="reversible"
+                        d="M 13.53125,12.03125 13.53125,149 25.46875,149 25.46875,112.46875 72.34375,149 91.71875,149 32.4375,102.78125 73.8125,59.15625 25.46875,12.03125 13.53125,12.03125 z M 25.46875,29.75 56.9375,59.59375 25.46875,92.8125 25.46875,29.75 z" />
+                    <path
+                        id="jer"
+                        d="M 34.1875 15.40625 L 28.5 25.90625 L 75.625 51.46875 L 50.09375 98.59375 L 60.5625 104.28125 L 91.8125 46.65625 L 34.1875 15.40625 z M 40.21875 55.5625 L 9 113.1875 L 66.59375 144.4375 L 72.28125 133.9375 L 25.15625 108.375 L 50.71875 61.25 L 40.21875 55.5625 z" />
+                    <path
+                        id="kano"
+                        reversible="reversible"
+                        d="M 74.15625,11.8125 12.71875,81.46875 71.15625,147.71875 80.09375,139.84375 28.65625,81.46875 83.09375,19.71875 z" />
+                    <path
+                        id="tiwas"
+                        reversible="reversible"
+                        d="M 49.623763,15.032487 3.2800131,61.376237 11.717513,69.813737 43.655013,37.876237 43.655013,143.03249 55.592513,143.03249 55.592513,37.876237 87.530013,69.813737 95.967513,61.376237 49.623763,15.032487 z" />
+                    <path
+                        id="berkana"
+                        reversible="reversible"
+                        d="M 22.539166,9.6277212 15.882916,19.565221 23.539166,24.721471 23.539166,137.09647 17.757916,140.97147 24.414166,150.87772 85.351666,109.97147 42.039166,80.877721 85.351666,51.815221 z M 35.476666,32.721471 63.914166,51.815221 35.476666,70.908971 z M 35.476666,90.877721 63.914166,109.97147 35.476666,129.06522 z" />
+                    <path
+                        id="ewas"
+                        reversible="reversible"
+                        d="M 14.6875,11.21875 4.46875,17.40625 11.53125,29.125 11.53125,145.15625 23.46875,145.15625 23.46875,48.90625 50.3125,93.40625 77.53125,48.25 77.53125,145.15625 89.46875,145.15625 89.46875,28.4375 96.125,17.40625 85.875,11.21875 50.28125,70.25 z" />
+                    <path
+                        id="laguz"
+                        reversible="reversible"
+                        d="M 11.3125,14.5 5.34375,24.84375 11.53125,28.40625 11.53125,143.15625 23.46875,143.15625 23.46875,35.3125 94.5625,76.34375 94.5625,62.5625 11.3125,14.5 z" />
+                    <path
+                        id="hagalaz"
+                        d="M 10.780755,20.03125 10.780755,34.90625 10.374505,34.53125 2.1870052,43.25 10.780755,51.28125 10.780755,139.15625 22.718255,139.15625 22.718255,62.46875 76.780755,113.0625 76.780755,139.15625 88.718255,139.15625 88.718255,124.21875 89.187005,124.65625 97.343255,115.9375 88.718255,107.875 88.718255,20.03125 76.780755,20.03125 76.780755,96.6875 22.718255,46.09375 22.718255,20.03125 10.780755,20.03125 z" />
+                    <path
+                        id="thuriaz"
+                        reversible="reversible"
+                        d="M 22.46875,19.90625 14.3125,28.625 31.53125,44.71875 31.53125,114.09375 14.3125,130.1875 22.46875,138.90625 31.53125,130.4375 31.53125,139.15625 43.46875,139.15625 43.46875,119.25 86.0625,79.40625 43.46875,39.5625 43.46875,20.03125 31.53125,20.03125 31.53125,28.375 z M 43.46875,55.90625 68.59375,79.40625 43.46875,102.90625 z" />
+                    <path
+                        id="dagaz"
+                        d="M 4.0302605,127.15625 49.68651,87.71875 95.34276,127.15625 95.34276,32.03125 49.68651,71.09375 4.0302605,32.03125 z M 15.96776,55.90625 40.93651,79.28125 40.81151,79.40625 40.93651,79.53125 15.96776,102.90625 z M 83.40526,55.90625 83.40526,102.90625 58.43651,79.53125 58.56151,79.40625 58.43651,79.28125 z" />
+                    <path
+                        id="sowelu"
+                        d="M 56.271927,14.52655 5.9829765,86.750698 66.117655,86.750698 25.280604,147.38069 43.851163,147.38069 94.079522,73.206454 33.914549,73.206454 74.993958,14.52655 56.271927,14.52655 z" />
+                </svg>
+            </div>
+        </section>
+        
+        
+        <section id="text-content">
+            <h2>Text Content</h2>
+            <div id="composed-content">
+                <h3>Reflection on: <span id="composed-title">The Question</span></h3>
+                <p id="content-1"> </p>
+            </div>
+            <div id="source-content">
+                <h3>Rune Interpretations</h3>
+                <p id="source-mannaz">Mannaz represents man; one's individuality and role in his or her community. Drawing Mannaz can be an invitation for some introspection— what is important to you and how are you important to others?</p>               
+                <p id="source-mannaz-inverted">Having drawn Mannaz in reverse can represent a disconneciton from one's self or a failure of fulfilling one's responsibility to the community.</p>
+                <p id="source-gebo">Gebo represents friendships. The presence of Gebo in the draw means one needs to reflect on what binds him or her to others. What favours do you owe? What favours do you think others owe you? What experiences do you share with others?</p>               
+                <p id="source-anzus">Anzus represents wisdom. It is the accumulation of knowledge and experience, and how one draws from that knowledge and experience to solve problems or to simply to do the right thing. Anzus is also said to be the “voice of God”</p>               
+                <p id="source-anzus-inverted">Drawing Anzus in reverse can represent a cloud in one's judgement— exacerbating what should have been a simple problem.</p>
+                <p id="source-othala">Othala represents family relations, the physical home, and inheritances. Drawing Othala brings those things at the foreground. Perhaps a reunion, a purchase of a new house or a renovation? It can also be a sign of the passing of an elder.</p>               
+                <p id="source-othala-inverted">Othala, in reverse, can mean trouble in the family or a warning to protect one's home from calamity or trespass.</p>
+                <p id="source-ingwas">Ingwas represents potential. Drawing Ingwas means an abundance of opportunities. While it may be seen as a good thing, the presence of Ingwas is also a warning for one to be extra mindful of one's actions. Potential is neutral. One needs to nurse the situation if it is to reach a happy and expected ending.</p>               
+                <p id="source-uruz">Uruz represents physical strength, health, and general well-being. Drawing this rune maybe a sign of impending rigourous activities, sports competitions, or manual labour.</p>               
+                <p id="source-uruz-inverted">Reversed, Uruz warns one to take care of his or her health as there is a potential for sickness or a delay of recovery from one. There may also be a chance of a physical confrontation.</p>
+                <p id="source-perth">Perth represents fate. Some sources say that Perth resembles a dice cup, which was used in gambling through the ages. The appearance of this rune in the draw an opporunity to test fate— to take a chance on something.</p>               
+                <p id="source-perth-inverted">Conversely, having drawn Perth in reverse, one is warned from taking unnecessary risks.</p>
+                <p id="source-isa">Isa represents ice. Isa is the harbinger of a long wait. It's appearance invites one to accept that there are things that are out of one's hands. Some times, in order to accomplish something, one has to allow others to do what they have to do.</p>               
+                <p id="source-nauthir">Nauthir represents pain or failure. There's a saying, “it's not how many times you fall but how many times you pick yourself up.” Perhaps, that is the lesson that Nauthir wants to leave. There is also a saying, “whatever doesn't kill you makes your stronger.”</p>               
+                <p id="source-nauthir-inverted">Drawing Nauthir reversed is a warning of a tendency to give up easily and to take the lessons of the experience for granted.</p>
+                <p id="source-aiwas">Aiwas represents adaptability. This rune is said to symbolise the Yew tree, known for its flexibility. Because of that, the wood of the Yew tree has been used for many things, most notably the long bow. Aiwas invites one to reflect on one's ability to adjust to circumstances and to make the best out of what maybe a bad situation.</p>               
+                <p id="source-algiz">Algiz represents security or the ability to defend oneself. Drawing Algiz may be a sign of a coming encroachment by others into one's property or territory. Property and territory in this sense are not limited to physical places. Figuratively, these can mean “one's turf”.</p>               
+                <p id="source-algiz-inverted">When Algiz is draw reversed, one is warned to be more watchful since encroachers might use methods unheard of.</p>
+                <p id="source-algiz">Fehu represents wealth. Drawing this rune is a sign that one ought to focus on finances and liquid assets. There may be an opportunity to make money or to exchange possessions in a very straight forward manner.</p>               
+                <p id="source-algiz-inverted">Having drawn the Fehu reversed, one is warned of being short-changed or of overspending.</p>
+                <p id="source-wunjo">Wunjo represents victory. Wunjo symbolises a scepter, which in turn symbolises dominion. Of course, in the old days, dominion is earned through victory on the battlefield. And victories are often accompanied by great joy and celebration.</p>               
+                <p id="source-wunjo-inverted">But Wunjo in reverse simply means defeat, losing ground, and therefore, sadness.</p>
+                <p id="source-raido">Raido represents communication and the exchange of information. In ancient times, Raido would have symbolised a rider taking a message from one point to another. In modern times, Raido can be the tools that we use to connect with each other: cellular phones, the Internet.</p>               
+                <p id="source-raido-inverted">Raido reversed signifies troubles with getting information across and, possibly, a disruption in communications technology.</p>
+                <p id="source-jer">Jer represents a year or a long, complete cycle. It is generally accepted that long cycles have their ups and downs. The appearance of Jer in the draw parhaps provides motivation for one to reflect on those ups and downs— to enjoy memories and to prepare oneself for another cycle.</p>               
+                <p id="source-kano">Kano represents enlightenment. Kano symbolises candle- or torchlight, a tool that cuts through darkness. As such, Kano's appearance in the draw is a sign that one may receive sensitive information or a solution to a nagging problem is on its way.</p>               
+                <p id="source-kano-inverted">However, torchlight does not cover the widest area. Having drawn Kano in reverse serves as a strong reminder that one is not seeing a complete picture.</p>
+                <p id="source-tiwas">Tiwas represents sacrifice. Small errands don't make a hero of anyone. Drawing Tiwas suggests a coming trial that promises some great reward at the end of it; therefore, one is invited to muster all his or her strength, endurance, and guile.</p>               
+                <p id="source-tiwas-inverted">Tiwas reversed is a warning for one to stop and ask whether such a sacrifice is really warranted. Is the expected reward really worth fighting for?</p>
+                <p id="source-berkana">Berkana represents motherhood. While Berkana can indicate a pregnancy and child rearing, the rune can also symbolise the beginning stages of an endeavour. Berkana represents situations where one must dedicate oneself to nurturing a personal cause so that it can develop into a self-sustainin one.</p>               
+                <p id="source-berkana-inverted">Drawing Berkana in reverse suggests great delay in the development in one's endeavours. Patience and perseverance are required.</p>
+                <p id="source-ewas">Ewas represents travel or adventures. Drawing Ewas suggests a coming opportunity to have a vacation, to see new and far away places. Ewas can also mean adventure in a non-geographical sense like getting introduced to a series of books, or learning a new skill and developing proficiency in it.</p>               
+                <p id="source-ewas-inverted">In reverse, Ewas can indicate postponement of travel plans, mechanical problems while on the road, or any other cause of delay.</p>
+                <p id="source-laguz">Laguz represents persistence. Traditionally, Laguz is the symbol of moving water like rivers and streams. Water may seem to follow the lay of the land but in reality, over time, flowing water actually changes land features. Although, it takes time.</p>               
+                <p id="source-laguz-inverted">Drawing Laguz in reverse serves as a warning against impatience. It is a reminder that just because the effects of one's efforts aren't immediately seen, it doesn't mean that one's efforts are ineffective.</p>
+                <p id="source-hagalaz">Hagalaz represents inclement weather. The rune, in the old days, symbolised hail— a destructive force that disrupted everyday life. Drawing this rune gives advance warning of unexpected challenges coming from the environment.</p>               
+                <p id="source-thuriaz">Thuriaz represnts barriers. Thuriaz symbolise the throns that protect some plants from predators. The appearance of this rune in the draw can mean that one's desire is being withheld— at arms distance. There maybe a situation where one is being taunted with something that one desperately wants but cannot have.</p>               
+                <p id="source-thuriaz-inverted">Drawing this rune in reverse can mean that those desires are achieveable after all, with a bit of guile and cunning.</p>
+                <p id="source-dagaz">Dagaz represents one day. A day is also such a short period of time; yet, a lot can happen in a day. Drawing Dagaz is a sign of surprises, a warning of very sudden changes.</p>               
+                <p id="source-sowelu">Sowelu represents the Sun, the self. Unlike Mannaz, which explores one's relationship with the community, Sowelu explores one's relationship with oneself. The appearance of the rune in the draw assures one that having pride (or self-love) is necessary but only until it becomes vanity (or self-worship).</p>               
+            </div>
+        </section>
+        
+        
+        <footer>
+            <div id="bottom-box">
+<p>Put some extra stuff here...</p>
+
+            </div>
+            <p>Copyright &copy; 2015 <a href="http://www.abcruz.com" target="_blank">Arielle B Cruz</a>. All rights reserved.
+</p>
+        </footer>
+        
+        <script>
+(function() {
+    
+    var has_data = false;
+    var max_runes = document.getElementsByTagName("rect").length;
+    var init_delay = 100;
+    var picked = 0;
+    var question = "A Question.";
+    var refer_uri = "";
+    var rune_bag = document.getElementById("rune-bag");
+    var runes = [];  // [[rune.id, inverted: true|false], ...]
+    var self = location.protocol + "//" + location.host + location.pathname;
+    
+    function init() {
+        // Called under normal circumstances, when there is no data suppied.
+        if (picked < document.getElementsByTagName("rect").length) {
+            picked += 1;
+            pick_a_rune();
+            setTimeout(init, init_delay);
+        } else {
+            finish_init();
+        }
+    }
+    
+    function compose_share_link() {
+        var p = self + "?runes=";
+        var r = [];
+        for (var i=0; i<runes.length; i++) {
+            r.push(String(runes[i][0]) + "." + ((runes[i][1]) ? "1" : "0"));
+        }
+        p += r.join(",") + "&question=" + encodeURIComponent(question);
+        console.log(p);
+        return p;
+    }
+    
+    function compose_reflection(rune_id, inverted) {
+        var p = document.getElementById("content-" + picked);
+        var intro = p.innerHTML;
+        var src_id = "source-" + rune_id;
+        var rune = "We've drawn <strong>" + rune_id.toUpperCase();
+        if (inverted) rune += " inverted";
+        rune += "</strong>.";
+        var s = document.getElementById(src_id);
+        var reflection = s.innerHTML;
+        if (inverted) {
+            var si = document.getElementById(src_id + "-inverted");
+            reflection += " " + si.innerHTML;
+        }
+        p.innerHTML = intro + " " + rune + " " + reflection;
+    }
+    
+    function finish_init() {
+        if (!has_data) {
+            var u = compose_share_link();
+            location.replace(u);
+        } else {
+            var t = document.getElementById("composed-title");
+            var c = document.getElementById("composed-content");
+            var s = document.getElementById("asker");
+            t.firstChild.nodeValue = question;
+            c.style["display"] = "block";
+            s.href = self;
+        }
+    }
+    
+    function parse_args() {
+        // Get the arguments part of the location.
+        var l = location.href.split(location.pathname);
+        if (l.length != 2) return false;
+        var a = l[1].substring(1).split("&");
+        for (var i=0; i<a.length; i++) {
+            var kv = a[i].split("=");
+            if (kv[0] == "question") {
+                question = decodeURIComponent(kv[1]);
+                question = question.replace(/\+/g, " ");
+            }
+            if (kv[0] == "runes") {
+                var rs = decodeURIComponent(kv[1]).split(",");
+                if (rs.length != max_runes) return false;
+                for (var j=0; j<rs.length; j++) {
+                    /* We want a float-like expression where in x.y,
+                       x is a rune's id and y is either 0 or 1, which
+                       we'll then convert to a Boolean. */
+                    var r_ids = rs[j].split(".");
+                    if (isNaN(r_ids[0])) return false;
+                    if (r_ids.length != 2) r_ids[1] = "0";
+                    if (isNaN(r_ids[1])) return false;
+                    runes.push([Number(r_ids[0]), Boolean(Number(r_ids[1]))]);
+                }
+            }
+        }
+        // Because we can get to this point and still not have the right number.
+        if (!question) question = "...";
+        if (runes.length != max_runes) {
+            runes = [];
+            return false;
+        }
+        return true;
+    }
+    
+    function pick_a_rune() {
+        var choices = rune_bag.children;
+        var rune_field = document.getElementById("rune-" + picked);
+        if (has_data) {
+            var choice = runes[picked-1][0];
+            var rune = choices[choice];
+            var inverted = runes[picked-1][1];
+        } else {
+            var choice = Math.floor(Math.random() * choices.length);
+            var rune = choices[choice];
+            var inverted = false;
+            if (rune.hasAttribute("reversible")) inverted = Math.random() >= 0.5;
+            runes.push([choice, inverted]);
+        }
+        if (inverted) rune_invert(rune);
+        compose_reflection(rune.id, inverted);
+        rune_field.appendChild(rune);
+    }
+    
+    function rune_invert(rune) {
+        var scale = "scale(-1,-1)";
+        var translate = "translate(-" + rune_bag.attributes["width"].value +
+            ",-" + rune_bag.attributes["height"].value + ")";
+        rune.setAttribute("transform", [scale, translate].join(" "));
+    }
+    
+    // Here we go.
+    has_data = parse_args();
+    if (!has_data) {
+        question = prompt("Think of a title of a situation:");
+        init_delay = 0;
+        var g = document.getElementById("rune-field");
+        g.style["display"] = "none";
+    }
+    setTimeout(init, init_delay);
+    
+}).call();
+
+        </script>
+    </body>
+</html>

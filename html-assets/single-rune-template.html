@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="description" content="Inspired by Facade, Rune Bag is a random rune picker application. This chooses one rune and provides the user some text to reflect on. Rune Bag is a simple, single page application created for entertainment purposes." />
+        <title>Samhain13's RuneBag (Single Draw)</title>
+        <link rel="image_src" href="http://betamini.abcruz.com/rune-bag-img.jpg" />
+        <style>
+{{ styles }}
+        </style>
+    </head>
+    <body>
+        <header>
+            <h1>Samhain13's RuneBag</h1>
+            <p>
+                A random rune picker.<br />
+                <a id="asker" href="#">[ <strong>Draw Runes</strong> ]</a>
+            </p>
+        </header>
+        
+        
+        <section id="graphics">
+            <h2>Graphics</h2>
+            
+            <div id="rune-field-container">
+                <svg id="rune-field"
+                    xmlns="http://www.w4.org/2000/svg" height="494" width="315">
+                    <g id="rune-1" transform="translate(107,167)">
+                        <rect x="0" y="0" ry="20" height="160" width="100" />
+                    </g>
+                </svg>
+            </div>
+            
+            <div id="rune-bag-container">
+                <svg id="rune-bag"
+                    xmlns="http://www.w3.org/2000/svg" height="160" width="100">
+                    {{for rune in runes}}
+                    <path
+                        id="{{ rune['rune_id'] }}"{{if rune['reversible']}}
+                        reversible="reversible"{{endif}}
+                        d="{{ rune['svg_path'] }}" />
+                    {{endfor}}
+                </svg>
+            </div>
+        </section>
+        
+        
+        <section id="text-content">
+            <h2>Text Content</h2>
+            <div id="composed-content">
+                <h3>Reflection on: <span id="composed-title">The Question</span></h3>
+                <p id="content-1"> </p>
+            </div>
+            <div id="source-content">
+                <h3>Rune Interpretations</h3>
+                {{for rune in runes}}
+                <p id="source-{{ rune['rune_id'] }}">{{ rune['standard_text'] }}</p>               {{if rune['reversible']}}
+                <p id="source-{{ rune['rune_id'] }}-inverted">{{ rune['inverted_text'] }}</p>{{endif}}
+                {{endfor}}
+            </div>
+        </section>
+        
+        
+        <footer>
+            <div id="bottom-box">
+{{ extras }}
+            </div>
+            <p>{{ copyright }}</p>
+        </footer>
+        
+        <script>
+{{ script }}
+        </script>
+    </body>
+</html>
