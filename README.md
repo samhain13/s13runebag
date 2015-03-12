@@ -5,6 +5,7 @@ Sample here: [http://betamini.abcruz.com/projects/rune-bag](http://betamini.abcr
 ## Variations
 
 * Cross Spread - draws five random runes for complex reflections
+* Seven Rune Method - draws seven random runes for more complext scenarios
 * Single Draw - draws one random rune for simple, yes-or-no questions
 
 
