@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="description" content="Inspired by Facade, Rune Bag is a random rune picker application. This chooses seven runes and lays them out in an M spread, then provides the user some text to reflect on. The seven rune method comes from the Rune Information Sheet at davensjournal.com." />
+        <title>Samhain13's RuneBag (Seven Rune Method)</title>
+        <link rel="image_src" href="http://betamini.abcruz.com/projects/rune-bag/rune-bag-img.jpg" />
+        <style>
+{{ styles }}
+        </style>
+    </head>
+    <body>
+        <header>
+            <h1>Samhain13's RuneBag</h1>
+            <p>
+                A random “Seven Rune Method” spread generator.<br />
+                <a id="asker" href="#">[ <strong>Draw Runes</strong> ]</a>
+            </p>
+        </header>
+        
+        
+        <section id="graphics">
+            <h2>Graphics</h2>
+            
+            <div id="rune-field-container">
+                <svg id="rune-field"
+                    xmlns="http://www.w4.org/2000/svg" height="494" width="315">
+                    <g id="rune-1" transform="translate(54,2)">
+                        <rect x="0" y="0" ry="20" height="160" width="100" />
+                    </g>
+                    <g id="rune-2" transform="translate(160,2)">
+                        <rect x="0" y="0" ry="20" height="160" width="100" />
+                    </g>
+                    <g id="rune-3" transform="translate(2,167)">
+                        <rect x="0" y="0" ry="20" height="160" width="100" />
+                    </g>
+                    <g id="rune-4" transform="translate(2,332)">
+                        <rect x="0" y="0" ry="20" height="160" width="100" />
+                    </g>
+                    <g id="rune-5" transform="translate(212,167)">
+                        <rect x="0" y="0" ry="20" height="160" width="100" />
+                    </g>
+                    <g id="rune-6" transform="translate(212,332)">
+                        <rect x="0" y="0" ry="20" height="160" width="100" />
+                    </g>
+                    <g id="rune-7" transform="translate(107,250)">
+                        <rect x="0" y="0" ry="20" height="160" width="100" />
+                    </g>
+                </svg>
+            </div>
+            
+            <div id="rune-bag-container">
+                <svg id="rune-bag"
+                    xmlns="http://www.w3.org/2000/svg" height="160" width="100">
+                    {{for rune in runes}}
+                    <path
+                        id="{{ rune['rune_id'] }}"{{if rune['reversible']}}
+                        reversible="reversible"{{endif}}
+                        d="{{ rune['svg_path'] }}" />
+                    {{endfor}}
+                </svg>
+            </div>
+        </section>
+        
+        
+        <section id="text-content">
+            <h2>Text Content</h2>
+            <div id="composed-content">
+                <h3>Reflection on: <span id="composed-title">The Question</span></h3>
+                <p>The <strong>top two runes</strong> speak about the problem:</p>
+                <p id="content-1"> </p>
+                <p id="content-2"> </p>
+                
+                <p>The two <strong>runes on the left</strong> speak about the past and the conditions that lead to the present situation:</p>
+                <p id="content-3"> </p>
+                <p id="content-4"> </p>
+                
+                <p>The two <strong>runes on the right</strong> speak about the “advice” that one is supposed to be getting.</p>
+                <p id="content-5"> </p>
+                <p id="content-6"> </p>
+                
+                <p>The <strong>rune in the middle</strong> represents the final outcome:</p>
+                <p id="content-7">...</p>
+                
+                <p>-------------</p>
+                <p><em>The “Seven Rune Method” comes from the <a href="http://davensjournal.com/runeinfo.html" target="_blank">Rune Information Sheet</a> at davensjournal.com.</em></p>
+            </div>
+            <div id="source-content">
+                <h3>Rune Interpretations</h3>
+                {{for rune in runes}}
+                <p id="source-{{ rune['rune_id'] }}">{{ rune['standard_text'] }}</p>               {{if rune['reversible']}}
+                <p id="source-{{ rune['rune_id'] }}-inverted">{{ rune['inverted_text'] }}</p>{{endif}}
+                {{endfor}}
+            </div>
+        </section>
+        
+        
+        <footer>
+            <div id="bottom-box">
+{{ extras }}
+            </div>
+            <p>{{ copyright }}</p>
+        </footer>
+        
+        <script>
+{{ script }}
+        </script>
+    </body>
+</html>
