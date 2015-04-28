@@ -157,7 +157,7 @@ rect { fill: rgb(25,25,25); stroke: rgb(120,120,120); }
                         reversible="reversible"
                         d="M 44.03026,20.03125 44.03026,65.1875 12.09276,33.25 3.6552605,41.6875 43.56151,79.59375 44.03026,139.15625 55.96776,139.15625 56.43651,79.59375 96.34276,41.6875 87.90526,33.25 55.96776,65.1875 55.96776,20.03125 z" />
                     <path
-                        id="algiz"
+                        id="fehu"
                         reversible="reversible"
                         d="M 94.1875 16.90625 L 23.46875 57.75 L 23.46875 20.03125 L 11.53125 20.03125 L 11.53125 64.625 L 3.21875 69.4375 L 9.1875 79.78125 L 11.53125 78.4375 L 11.53125 90.625 L 3.21875 95.4375 L 9.1875 105.78125 L 11.53125 104.4375 L 11.53125 139.15625 L 23.46875 139.15625 L 23.46875 97.53125 L 94.1875 56.6875 L 94.1875 42.90625 L 23.46875 83.75 L 23.46875 71.53125 L 94.1875 30.6875 L 94.1875 16.90625 z" />
                     <path
@@ -236,8 +236,8 @@ rect { fill: rgb(25,25,25); stroke: rgb(120,120,120); }
                 <p id="source-aiwas">Aiwas represents adaptability. This rune is said to symbolise the Yew tree, known for its flexibility. Because of that, the wood of the Yew tree has been used for many things, most notably the long bow. Aiwas invites one to reflect on one's ability to adjust to circumstances and to make the best out of what maybe a bad situation.</p>               
                 <p id="source-algiz">Algiz represents security or the ability to defend oneself. Drawing Algiz may be a sign of a coming encroachment by others into one's property or territory. Property and territory in this sense are not limited to physical places. Figuratively, these can mean “one's turf”.</p>               
                 <p id="source-algiz-inverted">When Algiz is draw reversed, one is warned to be more watchful since encroachers might use methods unheard of.</p>
-                <p id="source-algiz">Fehu represents wealth. Drawing this rune is a sign that one ought to focus on finances and liquid assets. There may be an opportunity to make money or to exchange possessions in a very straight forward manner.</p>               
-                <p id="source-algiz-inverted">Having drawn the Fehu reversed, one is warned of being short-changed or of overspending.</p>
+                <p id="source-fehu">Fehu represents wealth. Drawing this rune is a sign that one ought to focus on finances and liquid assets. There may be an opportunity to make money or to exchange possessions in a very straight forward manner.</p>               
+                <p id="source-fehu-inverted">Having drawn the Fehu reversed, one is warned of being short-changed or of overspending.</p>
                 <p id="source-wunjo">Wunjo represents victory. Wunjo symbolises a scepter, which in turn symbolises dominion. Of course, in the old days, dominion is earned through victory on the battlefield. And victories are often accompanied by great joy and celebration.</p>               
                 <p id="source-wunjo-inverted">But Wunjo in reverse simply means defeat, losing ground, and therefore, sadness.</p>
                 <p id="source-raido">Raido represents communication and the exchange of information. In ancient times, Raido would have symbolised a rider taking a message from one point to another. In modern times, Raido can be the tools that we use to connect with each other: cellular phones, the Internet.</p>               
@@ -317,7 +317,7 @@ rect { fill: rgb(25,25,25); stroke: rgb(120,120,120); }
         var reflection = s.innerHTML;
         if (inverted) {
             var si = document.getElementById(src_id + "-inverted");
-            reflection += " " + si.innerHTML;
+            if (si) reflection += " " + si.innerHTML;
         }
         p.innerHTML = intro + " " + rune + " " + reflection;
     }

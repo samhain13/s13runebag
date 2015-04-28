@@ -43,7 +43,7 @@
         var reflection = s.innerHTML;
         if (inverted) {
             var si = document.getElementById(src_id + "-inverted");
-            reflection += " " + si.innerHTML;
+            if (si) reflection += " " + si.innerHTML;
         }
         p.innerHTML = intro + " " + rune + " " + reflection;
     }
